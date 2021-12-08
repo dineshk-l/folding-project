@@ -1,3 +1,4 @@
+import math
 crease_array = list(map(str,input()))
 # print(crease_array)
 
@@ -22,15 +23,21 @@ def find_min_fold(s):
             fold[i] = new_min
     return fold
 
-def find_optimal_fold(fold1, fold2):
-    min_sum = min(fold1[-1],fold2[0])
-    for i in range(int(len(fold1)/2),len(fold1)-1):
-        min_sum = min(min_sum, fold1[i]+fold2[i+1])
-    print(min_sum)
+
+def find_min(l1, l2):
+    n = 0
+    min_value = l1[-1]
+    for i in range(n, len(l1)-2):
+        min_value = min(min_value, l1[i]+l2[i+1])
+    return min_value
 
 
-fold1 = find_min_fold(crease_array)[1:]
-print(fold1)
-fold2 = find_min_fold(crease_array[::-1])[::-1][:-1]
-print(fold2)
-print(find_optimal_fold(fold1, fold2))
+
+fold2 = find_min_fold(crease_array[::-1])
+fold1 = find_min_fold(crease_array)
+
+print(fold1[1:])
+print(list(reversed(fold2[1:])))
+print(fold1[-1])
+min_value = find_min(fold1[1:], list(reversed(fold2[1:])))
+print(min_value)
