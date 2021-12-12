@@ -23,21 +23,35 @@ def find_min_fold(s):
             fold[i] = new_min
     return fold
 
+def create_tuple(fold2):
+    res = [0] * len(fold2)
+    for i in range(1,len(fold2)):
+        for j in range(i-1,-1,-1):
+            if fold2[j]<fold2[i]:
+                res[i] = max(res[j]-(i-j),0,res[i])
+                break
+            elif fold2[j] >= fold2[i]:
+                res[i] += 1
+            
+    return list(zip(fold2,res))
 
 def find_min(l1, l2):
     n = 0
     min_value = l1[-1]
     for i in range(n, len(l1)-2):
-        min_value = min(min_value, l1[i]+l2[i+1])
+        r = l2[i+1][1]
+        if r <= 0:
+            min_value = min(min_value, l1[i]+l2[i+1][0])
     return min_value
 
 
 
-fold2 = find_min_fold(crease_array[::-1])
-fold1 = find_min_fold(crease_array)
+fold2 = find_min_fold(crease_array[::-1])[1:]
+fold1 = find_min_fold(crease_array)[1:]
 
-print(fold1[1:])
-print(list(reversed(fold2[1:])))
-print(fold1[-1])
-min_value = find_min(fold1[1:], list(reversed(fold2[1:])))
+# print(fold1)
+# print(list(reversed(fold2)))
+# print(fold1[-1])
+s = fold2_legal = create_tuple(fold2)
+min_value = find_min(fold1, list(reversed(s)))
 print(min_value)
