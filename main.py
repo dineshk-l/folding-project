@@ -38,10 +38,14 @@ def create_tuple(fold2):
 def find_min(l1, l2):
     n = 0
     min_value = l1[-1]
-    for i in range(n, len(l1)-2):
+    for i in range(n, len(l1)-3):
         r = l2[i+1][1]
-        if r <= 0:
-            min_value = min(min_value, l1[i]+l2[i+1][0])
+        if r <= 1:
+            if r == 0:
+                min_value = min(min_value, l1[i]+l2[i+1][0])
+            else:
+                if l2[i+2][1] == 1:
+                    min_value = min(min_value, l1[i]+l2[i+2][0]+1)
     return min_value
 
 
@@ -49,9 +53,9 @@ def find_min(l1, l2):
 fold2 = find_min_fold(crease_array[::-1])[1:]
 fold1 = find_min_fold(crease_array)[1:]
 
-# print(fold1)
-# print(list(reversed(fold2)))
-# print(fold1[-1])
+#print(fold1)
+#print(list(reversed(fold2)))
+#print(fold1[-1])
 s  = create_tuple(fold2)
 s1 = create_tuple(fold1)
 min_value = min(find_min(fold1, list(reversed(s))),find_min(fold2, list(reversed(s1))))
