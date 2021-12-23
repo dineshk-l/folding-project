@@ -32,20 +32,23 @@ def create_tuple(fold2):
                 break
             elif fold2[j] >= fold2[i]:
                 res[i] += 1
-            
     return list(zip(fold2,res))
 
 def find_min(l1, l2):
     n = 0
     min_value = l1[-1]
-    for i in range(n, len(l1)-3):
-        r = l2[i+1][1]
-        if r <= 1:
-            if r == 0:
-                min_value = min(min_value, l1[i]+l2[i+1][0])
-            else:
-                if l2[i+2][1] == 1:
-                    min_value = min(min_value, l1[i]+l2[i+2][0]+1)
+    for i in range(n, len(l1)-1):
+        for j in range(1,len(l1)-i):
+            r = l2[i+j][1]
+            if r == j-1:
+                min_value = min(min_value, l1[i]+l2[i+j][0]+j-1)
+        #r = l2[i+1][1]
+        #if r <= 1:
+        #    if r == 0:
+        #        min_value = min(min_value, l1[i]+l2[i+1][0])
+        #    else:
+        #        if l2[i+2][1] == 1:
+        #            min_value = min(min_value, l1[i]+l2[i+2][0]+1)
     return min_value
 
 
