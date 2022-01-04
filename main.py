@@ -1,6 +1,4 @@
-import math
-crease_array = list(map(str,input()))
-# print(crease_array)
+s = list(map(str,input()))
 
 def opposite(s, i, j):
     for n in range(i-1, j - 1, -1):
@@ -8,15 +6,14 @@ def opposite(s, i, j):
             return False
     return True
 
-
 def find_min_fold(s):
     n = len(s) + 1
     fold = [n] * n
     fold[0] = 0
     fold[1] = 1
-    for i in range(2,len(s)+1):
+    for i in range(1,len(s)+1):
         new_min = fold[i-1] + 1
-        for j in range(i-1,0,-1):
+        for j in range(i,-1,-1):
             if (i-j+i<n):
                 if  opposite(s, i, j):
                     new_min = min(new_min, fold[j-1]+1)    
@@ -35,31 +32,20 @@ def create_tuple(fold2):
     return list(zip(fold2,res))
 
 def find_min(l1, l2):
-    n = 0
     min_value = l1[-1]
-    for i in range(n, len(l1)-1):
+    for i in range(0, len(l1)):
         for j in range(1,len(l1)-i):
             r = l2[i+j][1]
             if r == j-1:
                 min_value = min(min_value, l1[i]+l2[i+j][0]+j-1)
-        #r = l2[i+1][1]
-        #if r <= 1:
-        #    if r == 0:
-        #        min_value = min(min_value, l1[i]+l2[i+1][0])
-        #    else:
-        #        if l2[i+2][1] == 1:
-        #            min_value = min(min_value, l1[i]+l2[i+2][0]+1)
     return min_value
 
+def dragon(crease_array):
+    fold2 = find_min_fold(crease_array[::-1])[1:]
+    fold1 = find_min_fold(crease_array)[1:]
+    l  =  list(reversed(create_tuple(fold2)))
+    l1 = list(reversed(create_tuple(fold1)))
+    min_value = min(find_min(fold1,l),find_min(fold2, l1))
+    return min_value
 
-
-fold2 = find_min_fold(crease_array[::-1])[1:]
-fold1 = find_min_fold(crease_array)[1:]
-
-#print(fold1)
-#print(list(reversed(fold2)))
-#print(fold1[-1])
-s  = create_tuple(fold2)
-s1 = create_tuple(fold1)
-min_value = min(find_min(fold1, list(reversed(s))),find_min(fold2, list(reversed(s1))))
-print(min_value)
+print(dragon(s))
